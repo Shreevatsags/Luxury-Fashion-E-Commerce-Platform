@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Search, Menu, X, Heart } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, Heart, User, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const { totalItems, setIsOpen: setCartOpen } = useCart();
+  const navigate = useNavigate();
 
   const links = ["New Arrivals", "Women", "Men", "Accessories", "Sale"];
 
@@ -45,11 +51,35 @@ const Navbar = () => {
           <button className="hidden md:block text-foreground hover:text-accent transition-colors duration-300">
             <Heart size={20} />
           </button>
-          <button className="text-foreground hover:text-accent transition-colors duration-300 relative">
+
+          {user ? (
+            <button
+              onClick={() => signOut()}
+              className="hidden md:block text-foreground hover:text-accent transition-colors duration-300"
+              title="Sign out"
+            >
+              <LogOut size={20} />
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate("/auth")}
+              className="hidden md:block text-foreground hover:text-accent transition-colors duration-300"
+              title="Sign in"
+            >
+              <User size={20} />
+            </button>
+          )}
+
+          <button
+            onClick={() => setCartOpen(true)}
+            className="text-foreground hover:text-accent transition-colors duration-300 relative"
+          >
             <ShoppingBag size={20} />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-accent-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-              3
-            </span>
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-accent-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
           </button>
         </div>
       </div>
@@ -65,14 +95,19 @@ const Navbar = () => {
           >
             <div className="px-6 py-4 flex flex-col gap-3">
               {links.map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  className="text-base font-medium text-foreground py-2"
-                >
+                <a key={link} href="#" className="text-base font-medium text-foreground py-2">
                   {link}
                 </a>
               ))}
+              {user ? (
+                <button onClick={() => signOut()} className="text-base font-medium text-foreground py-2 text-left">
+                  Sign Out
+                </button>
+              ) : (
+                <a href="/auth" className="text-base font-medium text-accent py-2">
+                  Sign In
+                </a>
+              )}
             </div>
           </motion.nav>
         )}

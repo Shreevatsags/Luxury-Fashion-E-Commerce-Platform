@@ -1,15 +1,46 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import catAccessories from "@/assets/category-accessories.jpg";
 import catClothing from "@/assets/category-clothing.jpg";
 import catHome from "@/assets/category-home.jpg";
 
-const categories = [
-  { name: "Accessories", image: catAccessories, count: "48 items" },
-  { name: "Clothing", image: catClothing, count: "126 items" },
-  { name: "Home & Living", image: catHome, count: "63 items" },
-];
+const fallbackImages: Record<string, string> = {
+  Clothing: catClothing,
+  Accessories: catAccessories,
+  "Home & Living": catHome,
+};
+
+interface Category {
+  id: string;
+  name: string;
+  image_url: string | null;
+  product_count?: number;
+}
 
 const Categories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data: cats } = await supabase.from("categories").select("*");
+      if (!cats) return;
+
+      // Get product counts
+      const withCounts = await Promise.all(
+        cats.map(async (cat) => {
+          const { count } = await supabase
+            .from("products")
+            .select("*", { count: "exact", head: true })
+            .eq("category_id", cat.id);
+          return { ...cat, product_count: count ?? 0 };
+        })
+      );
+      setCategories(withCounts);
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <section id="categories" className="py-24 md:py-32">
       <div className="container mx-auto px-6">
@@ -31,7 +62,7 @@ const Categories = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.map((cat, i) => (
             <motion.a
-              key={cat.name}
+              key={cat.id}
               href="#"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +71,7 @@ const Categories = () => {
               className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer"
             >
               <img
-                src={cat.image}
+                src={fallbackImages[cat.name] || cat.image_url || "/placeholder.svg"}
                 alt={cat.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
@@ -51,7 +82,7 @@ const Categories = () => {
                   {cat.name}
                 </h3>
                 <p className="text-primary-foreground/70 text-sm font-body">
-                  {cat.count}
+                  {cat.product_count} items
                 </p>
                 <div className="mt-4 h-[2px] bg-primary-foreground/50 w-0 group-hover:w-full transition-all duration-500" />
               </div>

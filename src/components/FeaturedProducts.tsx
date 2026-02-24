@@ -1,22 +1,25 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import ProductCard from "./ProductCard";
-import catAccessories from "@/assets/category-accessories.jpg";
-import catClothing from "@/assets/category-clothing.jpg";
-import catHome from "@/assets/category-home.jpg";
-import heroImage from "@/assets/hero-image.jpg";
 
-const products = [
-  { name: "Linen Oversized Blazer", price: "$189", image: catClothing, tag: "New" },
-  { name: "Handcrafted Leather Tote", price: "$245", image: catAccessories },
-  { name: "Ceramic Table Vase", price: "$68", image: catHome, tag: "Best Seller" },
-  { name: "Merino Wool Sweater", price: "$145", image: heroImage },
-  { name: "Silk Scarf Collection", price: "$95", image: catAccessories, tag: "Limited" },
-  { name: "Organic Cotton Tee", price: "$55", image: catClothing },
-  { name: "Artisan Candle Set", price: "$42", image: catHome },
-  { name: "Cashmere Wrap", price: "$220", image: heroImage, tag: "New" },
-];
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image_url: string | null;
+  description: string | null;
+}
 
 const FeaturedProducts = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    supabase.from("products").select("*").limit(8).then(({ data }) => {
+      if (data) setProducts(data);
+    });
+  }, []);
+
   return (
     <section id="products" className="py-24 md:py-32 bg-secondary/50">
       <div className="container mx-auto px-6">
@@ -46,8 +49,11 @@ const FeaturedProducts = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {products.map((product, i) => (
             <ProductCard
-              key={product.name}
-              {...product}
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              price={`$${product.price}`}
+              image={product.image_url || "/placeholder.svg"}
               delay={i * 0.08}
             />
           ))}
