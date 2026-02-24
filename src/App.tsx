@@ -8,6 +8,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import CartSidebar from "@/components/CartSidebar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import OrderSuccess from "./pages/OrderSuccess";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
