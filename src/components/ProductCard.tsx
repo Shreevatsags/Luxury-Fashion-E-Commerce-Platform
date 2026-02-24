@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { Heart, ShoppingBag } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
+  id: string;
   name: string;
   price: string;
   image: string;
@@ -9,7 +11,9 @@ interface ProductCardProps {
   delay?: number;
 }
 
-const ProductCard = ({ name, price, image, tag, delay = 0 }: ProductCardProps) => {
+const ProductCard = ({ id, name, price, image, tag, delay = 0 }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -31,19 +35,18 @@ const ProductCard = ({ name, price, image, tag, delay = 0 }: ProductCardProps) =
           </span>
         )}
         <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-500" />
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileHover={{ opacity: 1, y: 0 }}
-          className="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
-        >
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 bg-background/95 backdrop-blur-sm text-foreground text-sm font-medium rounded-lg hover:bg-background transition-colors">
+        <div className="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+          <button
+            onClick={(e) => { e.stopPropagation(); addToCart(id); }}
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-background/95 backdrop-blur-sm text-foreground text-sm font-medium rounded-lg hover:bg-background transition-colors"
+          >
             <ShoppingBag size={16} />
             Add to Cart
           </button>
           <button className="p-3 bg-background/95 backdrop-blur-sm text-foreground rounded-lg hover:bg-background hover:text-accent transition-colors">
             <Heart size={16} />
           </button>
-        </motion.div>
+        </div>
       </div>
       <h3 className="font-display font-medium text-foreground text-sm tracking-wide mb-1 group-hover:text-accent transition-colors duration-300">
         {name}
