@@ -203,4 +203,4 @@ The application is optimized for:
 
 **Shreevatsa G S**
 
-Built with ❤️ using React, TypeScript, Vite, Tailwind CSS, and shadcn/ui.
+
