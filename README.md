@@ -4,65 +4,16 @@ A premium fashion e-commerce website designed to deliver a seamless and elegant 
 
 ## ✨ Features
 
-### 🏠 Homepage
+* Modern Fashion E-Commerce Platform
+* Responsive Design
+* Product Catalog & Search
+* Shopping Cart & Wishlist
+* User Authentication
+* Secure Checkout
+* Profile Management
+* Order History
+* Fast & Optimized Performance
 
-* Modern hero section
-* Featured collections
-* Category highlights
-* Promotional banners
-* Responsive design
-
-### 🛍️ Shop
-
-* Product listing grid
-* Category filtering
-* Product search
-* Sorting options
-* Responsive product cards
-
-### 📦 Product Details
-
-* Product image gallery
-* Product information
-* Size and quantity selection
-* Add to Cart
-* Add to Wishlist
-* Related products section
-
-### ❤️ Wishlist
-
-* Save favorite products
-* Remove items
-* Move items to cart
-
-### 🛒 Shopping Cart
-
-* View selected products
-* Update quantities
-* Remove products
-* Order summary
-* Checkout navigation
-
-### 👤 User Authentication
-
-* Login
-* Register
-* Forgot Password
-* Form validation
-
-### 📋 User Dashboard
-
-* Profile management
-* Order history
-* Address management
-* Wishlist management
-
-### 💳 Checkout
-
-* Shipping information
-* Billing details
-* Payment selection
-* Order confirmation
 
 ---
 
