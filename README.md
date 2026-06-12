@@ -28,10 +28,6 @@ A premium fashion e-commerce website designed to deliver a seamless and elegant 
 * shadcn/ui
 * React Router DOM
 
-### State Management
-
-* Context API / Zustand
-
 ### Styling
 
 * Tailwind CSS
