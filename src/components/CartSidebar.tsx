@@ -1,39 +1,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Minus, Plus, ShoppingBag, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 const CartSidebar = () => {
   const { items, isOpen, setIsOpen, removeFromCart, updateQuantity, totalPrice, loading } = useCart();
   const { user } = useAuth();
-  const [checkingOut, setCheckingOut] = useState(false);
+  const navigate = useNavigate();
 
-  const handleCheckout = async () => {
-    if (!user) return;
-    setCheckingOut(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          items: items.map((i) => ({
-            name: i.product.name,
-            price: i.product.price,
-            quantity: i.quantity,
-            image_url: i.product.image_url,
-          })),
-        },
-      });
-      if (error) throw error;
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (err: any) {
-      toast.error(err.message || "Checkout failed");
-    } finally {
-      setCheckingOut(false);
-    }
+  const goToCheckout = () => {
+    setIsOpen(false);
+    navigate("/checkout");
   };
 
   return (
@@ -139,12 +119,14 @@ const CartSidebar = () => {
                   </span>
                 </div>
                 <button
-                  onClick={handleCheckout}
-                  disabled={checkingOut}
-                  className="w-full py-3.5 bg-foreground text-background font-display font-semibold rounded-xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+                  onClick={goToCheckout}
+                  className="w-full py-3.5 bg-foreground text-background font-display font-semibold rounded-xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300 flex items-center justify-center gap-2"
                 >
-                  {checkingOut ? <><Loader2 size={18} className="animate-spin" /> Processing...</> : "Checkout"}
+                  Checkout
                 </button>
+                <Link to="/cart" onClick={() => setIsOpen(false)} className="block text-center text-sm text-muted-foreground hover:text-accent">
+                  View full cart
+                </Link>
               </div>
             )}
           </motion.aside>

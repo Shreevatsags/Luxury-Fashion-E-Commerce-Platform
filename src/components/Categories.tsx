@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import catAccessories from "@/assets/category-accessories.jpg";
 import catClothing from "@/assets/category-clothing.jpg";
@@ -61,32 +62,35 @@ const Categories = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.map((cat, i) => (
-            <motion.a
+            <motion.div
               key={cat.id}
-              href="#"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, delay: i * 0.15 }}
-              className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer"
             >
-              <img
-                src={fallbackImages[cat.name] || cat.image_url || "/placeholder.svg"}
-                alt={cat.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                <h3 className="font-display text-2xl md:text-3xl font-bold text-primary-foreground mb-1">
-                  {cat.name}
-                </h3>
-                <p className="text-primary-foreground/70 text-sm font-body">
-                  {cat.product_count} items
-                </p>
-                <div className="mt-4 h-[2px] bg-primary-foreground/50 w-0 group-hover:w-full transition-all duration-500" />
-              </div>
-            </motion.a>
+              <Link
+                to={`/shop?category=${cat.id}`}
+                className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer block"
+              >
+                <img
+                  src={fallbackImages[cat.name] || cat.image_url || "/placeholder.svg"}
+                  alt={cat.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                  <h3 className="font-display text-2xl md:text-3xl font-bold text-primary-foreground mb-1">
+                    {cat.name}
+                  </h3>
+                  <p className="text-primary-foreground/70 text-sm font-body">
+                    {cat.product_count} items
+                  </p>
+                  <div className="mt-4 h-[2px] bg-primary-foreground/50 w-0 group-hover:w-full transition-all duration-500" />
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ProductCard from "./ProductCard";
 
@@ -38,12 +39,12 @@ const FeaturedProducts = () => {
               Featured Products
             </h2>
           </div>
-          <a
-            href="#"
+          <Link
+            to="/shop"
             className="mt-4 md:mt-0 text-sm font-medium text-accent hover:text-foreground transition-colors duration-300 underline underline-offset-4"
           >
             View all products →
-          </a>
+          </Link>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
