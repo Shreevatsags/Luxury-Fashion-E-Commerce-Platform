@@ -87,17 +87,6 @@ npm run preview
 
 ---
 
-## 📱 Responsive Design
-
-The application is optimized for:
-
-* Desktop
-* Laptop
-* Tablet
-* Mobile Devices
-
----
-
 ## 🔮 Future Enhancements
 
 * Payment Gateway Integration
