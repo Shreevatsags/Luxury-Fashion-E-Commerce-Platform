@@ -36,12 +36,6 @@ A premium fashion e-commerce website designed to deliver a seamless and elegant 
 
 * Tailwind CSS
 * Custom Design System
-
-### Development Tools
-
-* ESLint
-* Prettier
-* Git & GitHub
   
 ---
 
