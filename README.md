@@ -42,40 +42,7 @@ A premium fashion e-commerce website designed to deliver a seamless and elegant 
 * ESLint
 * Prettier
 * Git & GitHub
-
----
-
-## 📂 Project Structure
-
-```bash
-src/
-│
-├── components/
-│   ├── common/
-│   ├── layout/
-│   ├── product/
-│   └── ui/
-│
-├── pages/
-│   ├── Home/
-│   ├── Shop/
-│   ├── ProductDetails/
-│   ├── Cart/
-│   ├── Wishlist/
-│   ├── Checkout/
-│   ├── Login/
-│   ├── Register/
-│   └── Profile/
-│
-├── hooks/
-├── services/
-├── context/
-├── assets/
-├── data/
-├── routes/
-└── utils/
-```
-
+  
 ---
 
 ## ⚙️ Installation
