@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-image.jpg";
 
 const Hero = () => {
@@ -56,13 +57,13 @@ const Hero = () => {
             transition={{ delay: 0.9, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <a
-              href="#products"
+            <Link
+              to="/shop"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-display font-medium text-sm tracking-wide rounded-lg hover:opacity-90 transition-all duration-300 group"
             >
               Shop Collection
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </a>
+            </Link>
             <a
               href="#categories"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border text-foreground font-display font-medium text-sm tracking-wide rounded-lg hover:bg-secondary transition-all duration-300"
