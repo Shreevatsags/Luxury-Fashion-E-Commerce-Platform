@@ -119,12 +119,14 @@ const CartSidebar = () => {
                   </span>
                 </div>
                 <button
-                  onClick={handleCheckout}
-                  disabled={checkingOut}
-                  className="w-full py-3.5 bg-foreground text-background font-display font-semibold rounded-xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+                  onClick={goToCheckout}
+                  className="w-full py-3.5 bg-foreground text-background font-display font-semibold rounded-xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300 flex items-center justify-center gap-2"
                 >
-                  {checkingOut ? <><Loader2 size={18} className="animate-spin" /> Processing...</> : "Checkout"}
+                  Checkout
                 </button>
+                <Link to="/cart" onClick={() => setIsOpen(false)} className="block text-center text-sm text-muted-foreground hover:text-accent">
+                  View full cart
+                </Link>
               </div>
             )}
           </motion.aside>
