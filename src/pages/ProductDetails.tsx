@@ -83,22 +83,46 @@ const ProductDetails = () => {
 
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
           {/* Gallery */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
-            <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-card">
-              <img src={gallery[activeImg]} alt={product.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="grid grid-cols-3 gap-3">
+          <motion.div
+            initial={{ opacity: 0, rotateY: -25, x: -40 }}
+            animate={{ opacity: 1, rotateY: 0, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            style={{ perspective: 1200 }}
+            className="space-y-4"
+          >
+            <motion.div
+              ref={tiltRef}
+              onMouseMove={onMove}
+              onMouseLeave={onLeave}
+              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+              className="aspect-[3/4] rounded-2xl overflow-hidden bg-card shadow-2xl will-change-transform"
+            >
+              <motion.img
+                key={activeImg}
+                initial={{ opacity: 0, scale: 1.08, rotateY: 30 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                src={gallery[activeImg]}
+                alt={product.name}
+                style={{ transform: "translateZ(40px)" }}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            <div className="grid grid-cols-3 gap-3" style={{ perspective: 800 }}>
               {gallery.map((g, i) => (
-                <button
+                <motion.button
                   key={i}
                   onClick={() => setActiveImg(i)}
+                  whileHover={{ rotateY: 8, rotateX: -4, scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  style={{ transformStyle: "preserve-3d" }}
                   className={cn(
                     "aspect-square rounded-lg overflow-hidden border-2 transition-colors",
                     activeImg === i ? "border-accent" : "border-transparent"
                   )}
                 >
                   <img src={g} alt="" className="w-full h-full object-cover" />
-                </button>
+                </motion.button>
               ))}
             </div>
           </motion.div>
