@@ -22,6 +22,24 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
 
+  // 3D tilt
+  const tiltRef = useRef<HTMLDivElement>(null);
+  const rx = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 });
+  const ry = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 });
+  const rotateX = useTransform(rx, (v) => `${v}deg`);
+  const rotateY = useTransform(ry, (v) => `${v}deg`);
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = tiltRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    ry.set(px * 14);
+    rx.set(-py * 14);
+  };
+  const onLeave = () => { rx.set(0); ry.set(0); };
+
   useEffect(() => {
     if (!id) return;
     setLoading(true);
