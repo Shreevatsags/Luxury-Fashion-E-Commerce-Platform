@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Heart, ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag, GitCompare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCompare } from "@/contexts/CompareContext";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -17,7 +18,9 @@ interface ProductCardProps {
 const ProductCard = ({ id, name, price, image, tag, delay = 0 }: ProductCardProps) => {
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { isComparing, toggle: toggleCompare } = useCompare();
   const saved = isInWishlist(id);
+  const comparing = isComparing(id);
 
   return (
     <motion.div
@@ -55,8 +58,19 @@ const ProductCard = ({ id, name, price, image, tag, delay = 0 }: ProductCardProp
                 "p-3 bg-background/95 backdrop-blur-sm rounded-lg hover:bg-background transition-colors",
                 saved ? "text-accent" : "text-foreground hover:text-accent"
               )}
+              aria-label="Save to wishlist"
             >
               <Heart size={16} fill={saved ? "currentColor" : "none"} />
+            </button>
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleCompare(id); }}
+              className={cn(
+                "p-3 bg-background/95 backdrop-blur-sm rounded-lg hover:bg-background transition-colors",
+                comparing ? "text-accent" : "text-foreground hover:text-accent"
+              )}
+              aria-label="Add to compare"
+            >
+              <GitCompare size={16} />
             </button>
           </div>
         </div>
